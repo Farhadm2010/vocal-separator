@@ -17,81 +17,54 @@ else
   echo "✅ Homebrew already installed"
 fi
 
-# 2. Find or install Python 3.10+
+# Make sure brew is in PATH (Apple Silicon)
+if [ -f "/opt/homebrew/bin/brew" ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+# 2. Always use Homebrew Python (ARM64 native, avoids Intel conflicts)
 PYTHON=""
-for cmd in python3.12 python3.11 python3.10 python3; do
-  if command -v "$cmd" &>/dev/null; then
-    VER=$("$cmd" -c "import sys; print(sys.version_info >= (3,10))" 2>/dev/null)
-    if [ "$VER" = "True" ]; then
-      PYTHON="$cmd"
-      break
-    fi
+for cmd in /opt/homebrew/bin/python3.12 /opt/homebrew/bin/python3.11 /opt/homebrew/bin/python3.10 /opt/homebrew/bin/python3; do
+  if [ -f "$cmd" ]; then
+    PYTHON="$cmd"
+    break
   fi
 done
 
 if [ -z "$PYTHON" ]; then
-  echo "📦 Installing Python 3.12..."
-  brew install python@3.12
-  PYTHON="python3.12"
+  echo "📦 Installing Python 3.11 via Homebrew..."
+  brew install python@3.11
+  PYTHON="/opt/homebrew/bin/python3.11"
 else
-  echo "✅ Python found: $PYTHON"
+  echo "✅ Homebrew Python found: $PYTHON"
 fi
 
 # 3. Install Python packages
 echo "📦 Installing demucs AI model and dependencies..."
-$PYTHON -m pip install --quiet --upgrade pip
-$PYTHON -m pip install --quiet certifi demucs
+"$PYTHON" -m pip install --quiet --upgrade pip
+"$PYTHON" -m pip install --quiet certifi demucs diffq
 echo "✅ Packages installed"
 
-# 4. Install app files
+# 4. Download app file
 APP_DIR="$HOME/.vocal-separator"
 mkdir -p "$APP_DIR"
 curl -fsSL https://raw.githubusercontent.com/Farhadm2010/vocal-separator/main/vocal_separator.py -o "$APP_DIR/vocal_separator.py"
-echo "✅ App files installed"
+echo "✅ App downloaded"
 
-# 5. Create .app bundle in /Applications
-APP_PATH="/Applications/Vocal Separator.app"
-mkdir -p "$APP_PATH/Contents/MacOS"
-mkdir -p "$APP_PATH/Contents/Resources"
-
-PYTHON_FULL=$(command -v $PYTHON)
-
-cat > "$APP_PATH/Contents/MacOS/launch" << LAUNCHER
-#!/bin/bash
-"$PYTHON_FULL" "$APP_DIR/vocal_separator.py"
-LAUNCHER
-chmod +x "$APP_PATH/Contents/MacOS/launch"
-
-cat > "$APP_PATH/Contents/Info.plist" << PLIST
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-  <key>CFBundleExecutable</key>
-  <string>launch</string>
-  <key>CFBundleName</key>
-  <string>Vocal Separator</string>
-  <key>CFBundleIdentifier</key>
-  <string>com.sunotools.vocalseparator</string>
-  <key>CFBundleVersion</key>
-  <string>1.2</string>
-  <key>CFBundlePackageType</key>
-  <string>APPL</string>
-  <key>CFBundleShortVersionString</key>
-  <string>1.2</string>
-</dict>
-</plist>
-PLIST
+# 5. Create Desktop launcher
+LAUNCHER="$HOME/Desktop/Vocal Separator.command"
+printf '#!/bin/bash\nkill $(lsof -ti:7878) 2>/dev/null\n"%s" "%s/vocal_separator.py"\n' "$PYTHON" "$APP_DIR" > "$LAUNCHER"
+chmod +x "$LAUNCHER"
+echo "✅ Desktop launcher created"
 
 echo ""
 echo "======================================"
 echo "✅ Installation complete!"
 echo ""
-echo "   → Open Finder"
-echo "   → Go to Applications"
-echo "   → Double-click 'Vocal Separator'"
+echo "   → Double-click 'Vocal Separator.command'"
+echo "     on your Desktop to launch"
 echo ""
-echo "Your browser will open automatically."
-echo "Press Ctrl+C in Terminal to quit the app."
+echo "Your browser opens automatically."
+echo "Close Terminal window to quit."
 echo "======================================"
 echo ""
