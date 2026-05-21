@@ -46,8 +46,7 @@ echo "✅ Packages installed"
 # 4. Install app files
 APP_DIR="$HOME/.vocal-separator"
 mkdir -p "$APP_DIR"
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cp "$SCRIPT_DIR/../vocal_separator.py" "$APP_DIR/vocal_separator.py"
+curl -fsSL https://raw.githubusercontent.com/Farhadm2010/vocal-separator/main/vocal_separator.py -o "$APP_DIR/vocal_separator.py"
 echo "✅ App files installed"
 
 # 5. Create .app bundle in /Applications
