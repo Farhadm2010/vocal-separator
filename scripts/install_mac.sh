@@ -42,7 +42,7 @@ fi
 # 3. Install Python packages
 echo "📦 Installing demucs AI model and dependencies..."
 "$PYTHON" -m pip install --quiet --upgrade pip
-"$PYTHON" -m pip install --quiet certifi demucs diffq
+"$PYTHON" -m pip install --quiet certifi demucs diffq torchcodec
 echo "✅ Packages installed"
 
 # 4. Download app file
