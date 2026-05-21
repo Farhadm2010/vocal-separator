@@ -40,7 +40,7 @@ state = {
     "selected_file": "",
     "output_dir": "",
     "output_format": "wav",
-    "model": "mdx_q",
+    "model": "htdemucs",
     "status": "ready",       # ready | separating | done | error
     "message": "",
     "saved_dir": "",
