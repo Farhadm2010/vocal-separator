@@ -33,7 +33,7 @@ After that:
 
 ---
 
-## 🚀 Install — Windows (one command, then done forever)
+## 🚀 Install — Windows (Beta)
 
 Open **PowerShell as Administrator** and paste this once:
 
