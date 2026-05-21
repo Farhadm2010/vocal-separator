@@ -30,6 +30,7 @@ curl -fsSL https://raw.githubusercontent.com/Farhadm2010/vocal-separator/main/sc
 After that:
 - Open **Finder → Applications → Vocal Separator** and double-click
 - Your browser opens automatically — done! ✅
+- > ✅ Requires Apple Silicon Mac (M1, M2, M3, or M4). Intel Macs not supported yet.
 
 ---
 
