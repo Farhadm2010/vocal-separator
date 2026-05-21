@@ -3,7 +3,7 @@
 **Free AI-powered tool to split any song into Vocals + Instrumental.**  
 Built with [Meta's Demucs](https://github.com/facebookresearch/demucs) · Runs 100% on your computer · No data sent anywhere · No subscription.
 
-> Made by the creator of [Your GPT Tools Link Here] — AI tools for Suno music creators.
+> Made by the creator of [Suno Copilot](https://chatgpt.com/g/g-69d8c51ce4808191b256b49d623b99db-suno-copilot-ai-song-generator-v5-5) — AI tools for Suno music creators.
 
 ---
 
